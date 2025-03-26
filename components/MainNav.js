@@ -30,7 +30,6 @@ export default function MainNav() {
                     </Nav>
                     &nbsp;
                     <Form className="d-flex" onSubmit={handleSearch}>
-                    &nbsp;
                         <Form.Control
                             type="search"
                             placeholder="Search"
@@ -41,6 +40,7 @@ export default function MainNav() {
                         />
                         <Button variant="btn btn-success" type="submit">Search</Button>
                     </Form>
+                    &nbsp;
                 </Navbar.Collapse>
             </Container>
         </Navbar>
