@@ -23,10 +23,15 @@ export default function Artwork() {
 
   useEffect(() => {
     if (data?.objectIDs?.length > 0) {
+      // Filter results using validObjectIDList
+      let filteredResults = validObjectIDList.objectIDs.filter(x => data.objectIDs.includes(x));
+
+      // Build paginated results using filteredResults
       const results = [];
-      for (let i = 0; i < data.objectIDs.length; i += PER_PAGE) {
-        results.push(data.objectIDs.slice(i, i + PER_PAGE));
+      for (let i = 0; i < filteredResults.length; i += PER_PAGE) {
+        results.push(filteredResults.slice(i, i + PER_PAGE));
       }
+
       setArtworkList(results);
       setPage(1);
     } else {
