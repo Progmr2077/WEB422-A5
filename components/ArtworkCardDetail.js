@@ -3,14 +3,34 @@ import useSWR from 'swr';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import Error from 'next/error';
+import { useAtom } from 'jotai';
+import { favouritesAtom } from '../store';
+import { useState } from 'react';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ArtworkCardDetail({ objectID }) {
   const { data, error } = useSWR(
-    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`,
+    objectID ? `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}` : null,
     fetcher
   );
+
+  // Get the favourites list from Jotai state
+  const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
+
+  // State to control button appearance based on whether the artwork is in favourites
+  const [showAdded, setShowAdded] = useState(favouritesList.includes(objectID));
+
+  // Function to handle adding/removing favourites
+  const favouritesClicked = () => {
+    if (showAdded) {
+      setFavouritesList(current => current.filter(fav => fav !== objectID));
+      setShowAdded(false);
+    } else {
+      setFavouritesList(current => [...current, objectID]);
+      setShowAdded(true);
+    }
+  }
 
   if (error) {
     return <Error statusCode={404} />;
@@ -53,6 +73,13 @@ export default function ArtworkCardDetail({ objectID }) {
           <strong>Credit Line:</strong> {data.creditLine || 'N/A'} <br />
           <strong>Dimensions:</strong> {data.dimensions || 'N/A'}
         </Card.Text>
+          <Button
+          // Add a button to add/remove artwork from favourites
+          variant={showAdded ? "primary" : "outline-primary"}
+          onClick={favouritesClicked}
+          >
+            {showAdded ? "+ Favourite (added)" : "+ Favourite"}
+          </Button>
       </Card.Body>
     </Card>
   );
