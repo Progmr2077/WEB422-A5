@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Error from 'next/error';
 import { Row, Col, Pagination, Card } from 'react-bootstrap';
 import ArtworkCard from '../../components/ArtworkCard';
+import validObjectIDList from '@/public/data/validObjectIDList.json';
 
 const PER_PAGE = 12;
 
