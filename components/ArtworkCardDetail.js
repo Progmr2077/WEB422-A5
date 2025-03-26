@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Error from 'next/error';
 import { useAtom } from 'jotai';
 import { favouritesAtom } from '../store';
-import { useState } from 'react';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
