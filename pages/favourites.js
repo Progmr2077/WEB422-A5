@@ -18,9 +18,12 @@ export default function Favourites() {
           ))}
         </Row>
       ) : (
-        <Card>
+        <Card style={{ marginTop: '30px' }}>
           <Card.Body>
-            <Card.Text>Nothing Here. Try adding some new artwork to the list.</Card.Text>
+            <Card.Text>
+                <h4>Nothing Here</h4>
+                Try adding some artwork to your favourites.
+            </Card.Text>
           </Card.Body>
         </Card>
       )}

@@ -42,11 +42,14 @@ export default function MainNav() {
                     </Form>
                     &nbsp;
 
-                    {/* Added User Name Dropdown with Favourites link */}
+                    {/* Added User Name Dropdown with Favourites and Search History link */}
                     <nav>
                         <NavDropdown title="User Name" id="user-nav-dropdown">
                             <Link href="/favourites" passHref legacyBehavior>
-                            <NavDropdown.Item onClick={() => setIsExpanded(false)}>Favourites</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>Favourites</NavDropdown.Item>
+                            </Link>
+                            <Link href="/history" passHref legacyBehavior>
+                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>Search History</NavDropdown.Item>
                             </Link>
                         </NavDropdown>
                     </nav>
