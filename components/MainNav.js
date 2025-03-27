@@ -22,10 +22,10 @@ export default function MainNav() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Link href="/" passHref legacyBehavior>
-                            <Nav.Link onClick={() => setIsExpanded(false)}>Home</Nav.Link>
+                            <Nav.Link active={router.pathname === "/"} onClick={() => setIsExpanded(false)}>Home</Nav.Link>
                         </Link>
                         <Link href="/search" passHref legacyBehavior>
-                            <Nav.Link onClick={() => setIsExpanded(false)}>Advanced Search</Nav.Link>
+                            <Nav.Link active={router.pathname === "/search"} onClick={() => setIsExpanded(false)}>Advanced Search</Nav.Link>
                         </Link>
                     </Nav>
                     &nbsp;
@@ -46,10 +46,14 @@ export default function MainNav() {
                     <nav>
                         <NavDropdown title="User Name" id="user-nav-dropdown">
                             <Link href="/favourites" passHref legacyBehavior>
-                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>Favourites</NavDropdown.Item>
+                                <NavDropdown.Item active={router.pathname === "/favourites"} onClick={() => setIsExpanded(false)}>
+                                    Favourites
+                                </NavDropdown.Item>
                             </Link>
                             <Link href="/history" passHref legacyBehavior>
-                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>Search History</NavDropdown.Item>
+                                <NavDropdown.Item active={router.pathname === "/history"} onClick={() => setIsExpanded(false)}>
+                                    Search History
+                                </NavDropdown.Item>
                             </Link>
                         </NavDropdown>
                     </nav>
