@@ -13,6 +13,7 @@ export default function MainNav() {
 
     const handleSearch = (e) => {
         e.preventDefault();
+        if (!search.trim()) return; // Prevent searching if the query is empty
         const queryString = `title=true&q=${search}`;
         setSearchHistory(current => [...current, queryString]); // Add to search history
         router.push(`/artwork?${queryString}`);

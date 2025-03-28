@@ -24,12 +24,9 @@ export default function AdvancedSearch() {
   // Function to handle search bar submission from navbar
   const handleNavbarSearch = (event) => {
     event.preventDefault();
-    const searchQuery = event.target.elements.searchQuery.value;
-
-    // If there is a search query, we only pass the query to the artwork page
-    if (searchQuery) {
-      router.push(`/artwork?q=${searchQuery}`);
-    }
+    const searchQuery = event.target.elements.searchQuery.value.trim();
+    if (!searchQuery) return; // Prevent searching if the query is empty
+    router.push(`/artwork?q=${searchQuery}`);
   };
 
   return (

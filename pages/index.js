@@ -16,6 +16,8 @@ export default function Home() {
   const router = useRouter(); // Initialize useRouter hook
   const handleSearch = (e) => {
     e.preventDefault();
+    const searchQuery = e.target.elements.search.value.trim();
+    if (!searchQuery) return; // Prevent searching if the query is empty
     const query = e.target.search.value; // Get the search query
     if (query) {
       router.push(`/artwork?title=true&q=${encodeURIComponent(query)}`); // Redirect to artwork page with query
