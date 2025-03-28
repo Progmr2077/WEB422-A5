@@ -17,11 +17,8 @@ export default function Home() {
   const handleSearch = (e) => {
     e.preventDefault();
     const searchQuery = e.target.elements.search.value.trim();
-    if (!searchQuery) return; // Prevent searching if the query is empty
-    const query = e.target.search.value; // Get the search query
-    if (query) {
-      router.push(`/artwork?title=true&q=${encodeURIComponent(query)}`); // Redirect to artwork page with query
-    }
+    if (!searchQuery) return; // Prevent searching and adding to history if the query is empty
+    router.push(`/artwork?title=true&q=${encodeURIComponent(searchQuery)}`); // Redirect to artwork page with query
   };
 
   return (

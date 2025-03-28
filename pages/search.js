@@ -16,6 +16,7 @@ export default function AdvancedSearch() {
     if (data.medium) queryString += `&medium=${data.medium}`;
     queryString += `&isOnView=${data.isOnView}`;
     queryString += `&isHighlight=${data.isHighlight}`;
+    if (!data.searchQuery.trim()) return; // Prevent adding empty queries to history
     queryString += `&q=${data.searchQuery}`;
     setSearchHistory(current => [...current, queryString]); // Add to search history
     router.push(`/artwork?${queryString}`);
@@ -25,7 +26,7 @@ export default function AdvancedSearch() {
   const handleNavbarSearch = (event) => {
     event.preventDefault();
     const searchQuery = event.target.elements.searchQuery.value.trim();
-    if (!searchQuery) return; // Prevent searching if the query is empty
+    if (!searchQuery) return; // Prevent searching and adding to history if the query is empty
     router.push(`/artwork?q=${searchQuery}`);
   };
 
