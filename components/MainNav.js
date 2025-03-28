@@ -2,15 +2,20 @@ import { Navbar, Nav, Form, Button, Container, NavDropdown } from 'react-bootstr
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { searchHistoryAtom } from '../store';
 
 export default function MainNav() {
     const router = useRouter();
     const [search, setSearch] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
+    const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        router.push(`/artwork?title=true&q=${search}`);
+        const queryString = `title=true&q=${search}`;
+        setSearchHistory(current => [...current, queryString]); // Add to search history
+        router.push(`/artwork?${queryString}`);
         setIsExpanded(false);
     };
 
@@ -22,10 +27,10 @@ export default function MainNav() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Link href="/" passHref legacyBehavior>
-                            <Nav.Link onClick={() => setIsExpanded(false)}>Home</Nav.Link>
+                            <Nav.Link active={router.pathname === "/"} onClick={() => setIsExpanded(false)}>Home</Nav.Link>
                         </Link>
                         <Link href="/search" passHref legacyBehavior>
-                            <Nav.Link onClick={() => setIsExpanded(false)}>Advanced Search</Nav.Link>
+                            <Nav.Link active={router.pathname === "/search"} onClick={() => setIsExpanded(false)}>Advanced Search</Nav.Link>
                         </Link>
                     </Nav>
                     &nbsp;
@@ -44,12 +49,12 @@ export default function MainNav() {
                     <Nav>
                         <NavDropdown title="User Name" id="user-nav-dropdown">
                             <Link href="/favourites" passHref legacyBehavior>
-                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>
+                                <NavDropdown.Item active={router.pathname === "/favourites"} onClick={() => setIsExpanded(false)}>
                                     Favourites
                                 </NavDropdown.Item>
                             </Link>
                             <Link href="/history" passHref legacyBehavior>
-                                <NavDropdown.Item onClick={() => setIsExpanded(false)}>
+                                <NavDropdown.Item active={router.pathname === "/history"} onClick={() => setIsExpanded(false)}>
                                     Search History
                                 </NavDropdown.Item>
                             </Link>

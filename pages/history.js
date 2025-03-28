@@ -37,7 +37,10 @@ return (
     <div style={{ marginTop: '80px' }}>
         {parsedHistory.length === 0 ? (
             <Card>
-                <div class="card-body"><h4>Nothing Here</h4>Try searching for some artwork.</div>
+                <Card.Body>
+                    <h4>Nothing Here</h4>
+                    Try searching for some artwork.
+                </Card.Body>
             </Card>
         ) : (
             <ListGroup>
