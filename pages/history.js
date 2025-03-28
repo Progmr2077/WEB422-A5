@@ -34,7 +34,7 @@ export default function History() {
   };
 
 return (
-    <div>
+    <div style={{ marginTop: '80px' }}>
         {parsedHistory.length === 0 ? (
             <Card>
                 <Card.Body>
