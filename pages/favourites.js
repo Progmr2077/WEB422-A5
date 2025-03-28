@@ -18,7 +18,7 @@ export default function Favourites() {
           ))}
         </Row>
       ) : (
-        <Card style={{ marginTop: '30px' }}>
+        <Card>
           <Card.Body>
             <Card.Text>
                 <h4>Nothing Here</h4>
