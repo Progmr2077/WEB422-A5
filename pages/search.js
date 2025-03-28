@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Row, Col, Form, Button, Navbar, Container, Nav, FormControl } from 'react-bootstrap';
-import MainNav from '../components/MainNav'; // Import the MainNav component
 
 export default function AdvancedSearch() {
   const { register, handleSubmit, formState: { errors } } = useForm();
