@@ -22,7 +22,7 @@ export default function Favourites() {
           <Card.Body>
             <Card.Text>
                 <h4>Nothing Here</h4>
-                Try adding some artwork to your favourites.
+                Try adding some new artwork to the list.
             </Card.Text>
           </Card.Body>
         </Card>
