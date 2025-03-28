@@ -11,7 +11,7 @@ export default function AdvancedSearch() {
 
   // Function to handle form submission
   const submitForm = (data) => {
-    let queryString = 'searchBy=true';
+    let queryString = 'title=true';
     if (data.geoLocation) queryString += `&geoLocation=${data.geoLocation}`;
     if (data.medium) queryString += `&medium=${data.medium}`;
     queryString += `&isOnView=${data.isOnView}`;
