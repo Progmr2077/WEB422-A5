@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { registerUser } from '../lib/authenticate';
+import { registerUser } from "../lib/authenticate";
 
 export default function Register() {
   const [user, setUser] = useState('');
@@ -21,17 +21,17 @@ export default function Register() {
   }
 
   return (
-    <div className="container mt-4">
-      <Card bg="light" className="mb-4" style={{ marginTop: '80px' }}>
+    <>
+      <Card bg="light">
         <Card.Body>
           <h2>Register</h2>
-          <p className="mb-0">Create a new account</p>
+          Register for an account:
         </Card.Body>
       </Card>
-      
-      <Form onSubmit={handleSubmit} className="col-md-6 mx-auto">
-        <Form.Group className="mb-3">
-          <Form.Label>Username</Form.Label>
+      <br />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>User:</Form.Label>
           <Form.Control
             type="text"
             value={user}
@@ -39,9 +39,9 @@ export default function Register() {
             required
           />
         </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
+        <br />
+        <Form.Group>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
             value={password}
@@ -49,9 +49,9 @@ export default function Register() {
             required
           />
         </Form.Group>
-
-        <Form.Group className="mb-4">
-          <Form.Label>Confirm Password</Form.Label>
+        <br />
+        <Form.Group>
+          <Form.Label>Confirm Password:</Form.Label>
           <Form.Control
             type="password"
             value={password2}
@@ -59,15 +59,10 @@ export default function Register() {
             required
           />
         </Form.Group>
-
+        <br />
         {warning && <Alert variant="danger">{warning}</Alert>}
-
-        <div className="d-grid gap-2">
-          <Button variant="primary" type="submit" size="lg">
-            Register
-          </Button>
-        </div>
+        <Button variant="primary" type="submit">Register</Button>
       </Form>
-    </div>
+    </>
   );
 }

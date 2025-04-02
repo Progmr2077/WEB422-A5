@@ -2,38 +2,32 @@ import { hashPassword } from '../../../lib/auth';
 import { connectToDatabase } from '../../../lib/db';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-  const { user, password, password2 } = req.body;
-
-  if (password !== password2) {
-    return res.status(400).json({ message: 'Passwords do not match' });
-  }
-
+  if (req.method !== 'POST') return res.status(405).end();
+  
+  const { user: username, password, password2 } = req.body;
+  
+  // Validation
+  if (password !== password2) return res.status(400).json({ message: 'Passwords do not match' });
+  
   try {
     const client = await connectToDatabase();
     const db = client.db();
-
-    const existingUser = await db.collection('users').findOne({ username: user });
-    if (existingUser) {
-      client.close();
-      return res.status(422).json({ message: 'User already exists' });
+    
+    // Check existing user
+    if (await db.collection('users').findOne({ username })) {
+      return res.status(409).json({ message: 'User already exists' });
     }
-
-    const hashedPassword = await hashPassword(password);
+    
+    // Create user
     await db.collection('users').insertOne({
-      username: user,
-      password: hashedPassword,
+      username,
+      password: await hashPassword(password),
       favourites: [],
       history: []
     });
-
-    client.close();
-    res.status(201).json({ message: 'User created successfully!' });
+    
+    res.status(201).json({ message: 'User created' });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Database error' });
   }
 }

@@ -20,17 +20,17 @@ export default function Login() {
   }
 
   return (
-    <div className="container mt-4">
-      <Card bg="light" className="mb-4">
+    <>
+      <Card bg="light">
         <Card.Body>
           <h2>Login</h2>
-          <p className="mb-0">Sign in to your account</p>
+          Login to your account:
         </Card.Body>
       </Card>
-
-      <Form onSubmit={handleSubmit} className="col-md-6 mx-auto">
-        <Form.Group className="mb-3">
-          <Form.Label>Username</Form.Label>
+      <br />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>User:</Form.Label>
           <Form.Control
             type="text"
             value={user}
@@ -38,9 +38,9 @@ export default function Login() {
             required
           />
         </Form.Group>
-
-        <Form.Group className="mb-4">
-          <Form.Label>Password</Form.Label>
+        <br />
+        <Form.Group>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
             value={password}
@@ -48,15 +48,10 @@ export default function Login() {
             required
           />
         </Form.Group>
-
+        <br />
         {warning && <Alert variant="danger">{warning}</Alert>}
-
-        <div className="d-grid gap-2">
-          <Button variant="primary" type="submit" size="lg">
-            Login
-          </Button>
-        </div>
+        <Button variant="primary" type="submit">Login</Button>
       </Form>
-    </div>
+    </>
   );
 }
