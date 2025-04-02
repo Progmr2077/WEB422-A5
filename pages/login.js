@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <>
-      <Card bg="light">
+      <Card bg="light" style={{ marginTop: '80px' }}>
         <Card.Body>
           <h2>Login</h2>
           Login to your account:

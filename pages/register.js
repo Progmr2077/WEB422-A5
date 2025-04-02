@@ -22,7 +22,7 @@ export default function Register() {
 
   return (
     <>
-      <Card bg="light">
+      <Card bg="light" style={{ marginTop: '80px' }}>
         <Card.Body>
           <h2>Register</h2>
           Register for an account:
