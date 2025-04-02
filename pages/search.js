@@ -3,31 +3,29 @@ import { useRouter } from 'next/router';
 import { Row, Col, Form, Button, Navbar, Container, Nav, FormControl } from 'react-bootstrap';
 import { useAtom } from 'jotai';
 import { searchHistoryAtom } from '../store';
+import { addToHistory } from '../lib/userData'; // ADD IMPORT
 
 export default function AdvancedSearch() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const router = useRouter();
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
 
-  // Function to handle form submission
-  const submitForm = (data) => {
+  // UPDATE SUBMIT FUNCTION TO USE API
+  const submitForm = async (data) => {
     let queryString = 'title=true';
     if (data.geoLocation) queryString += `&geoLocation=${data.geoLocation}`;
     if (data.medium) queryString += `&medium=${data.medium}`;
     queryString += `&isOnView=${data.isOnView}`;
     queryString += `&isHighlight=${data.isHighlight}`;
-    if (!data.searchQuery.trim()) return; // Prevent adding empty queries to history
+    if (!data.searchQuery.trim()) return;
     queryString += `&q=${data.searchQuery}`;
-    setSearchHistory(current => [...current, queryString]); // Add to search history
+    
+    try {
+      setSearchHistory(await addToHistory(queryString)); // UPDATE TO USE API
+    } catch (err) {
+      // Handle error if needed
+    }
     router.push(`/artwork?${queryString}`);
-  };
-
-  // Function to handle search bar submission from navbar
-  const handleNavbarSearch = (event) => {
-    event.preventDefault();
-    const searchQuery = event.target.elements.searchQuery.value.trim();
-    if (!searchQuery) return; // Prevent searching and adding to history if the query is empty
-    router.push(`/artwork?q=${searchQuery}`);
   };
 
   return (

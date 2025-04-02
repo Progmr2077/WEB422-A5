@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Error from 'next/error';
 import { useAtom } from 'jotai';
 import { favouritesAtom } from '../store';
+import { addToFavourites, removeFromFavourites } from '../lib/userData'; // ADD THIS IMPORT
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -14,20 +15,24 @@ export default function ArtworkCardDetail({ objectID }) {
     fetcher
   );
 
-  // Get the favourites list from Jotai state
   const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
+  const [showAdded, setShowAdded] = useState(false); // CHANGE DEFAULT TO FALSE
 
-  // State to control button appearance based on whether the artwork is in favourites
-  const [showAdded, setShowAdded] = useState(favouritesList.includes(objectID));
+  // ADD useEffect TO UPDATE showAdded
+  useEffect(() => {
+    setShowAdded(favouritesList?.includes(objectID));
+  }, [favouritesList, objectID]);
 
-  // Function to handle adding/removing favourites
-  const favouritesClicked = () => {
-    if (showAdded) {
-      setFavouritesList(current => current.filter(fav => fav !== objectID));
-      setShowAdded(false);
-    } else {
-      setFavouritesList(current => [...current, objectID]);
-      setShowAdded(true);
+  // MAKE FUNCTION ASYNC
+  const favouritesClicked = async () => {
+    try {
+      if (showAdded) {
+        setFavouritesList(await removeFromFavourites(objectID));
+      } else {
+        setFavouritesList(await addToFavourites(objectID));
+      }
+    } catch (err) {
+      // Handle error if needed
     }
   }
 

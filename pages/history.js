@@ -3,12 +3,15 @@ import { searchHistoryAtom } from '../store';
 import { useRouter } from 'next/router';
 import { ListGroup, Button, Card } from 'react-bootstrap';
 import styles from '@/styles/History.module.css';
+import { removeFromHistory } from '../lib/userData'; // ADD IMPORT
 
 export default function History() {
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const router = useRouter();
 
-  // Ensure searchHistory is always an array
+  // ADD LOADING CHECK (NOTE: The variable name here should likely be searchHistory, not favouritesList)
+  if(!searchHistory) return null; // CORRECTED FROM favouritesList TO searchHistory
+
   const parsedHistory = Array.isArray(searchHistory)
     ? searchHistory.map(h => {
         let params = new URLSearchParams(h);
@@ -17,56 +20,55 @@ export default function History() {
       })
     : [];
 
-  // Function to handle a click on a search history item
   const historyClicked = (e, index) => {
-    e.stopPropagation(); // Prevent event from bubbling
+    e.stopPropagation();
     router.push(`/artwork?${searchHistory[index]}`);
   };
 
-  // Function to remove a search history item
-  const removeHistoryClicked = (e, index) => {
-    e.stopPropagation(); // Prevent event from bubbling
-    setSearchHistory(current => {
-      let updatedHistory = [...current];
-      updatedHistory.splice(index, 1);
-      return updatedHistory;
-    });
+  // UPDATE REMOVE FUNCTION TO USE API
+  const removeHistoryClicked = async (e, index) => {
+    e.stopPropagation();
+    try {
+      setSearchHistory(await removeFromHistory(searchHistory[index]));
+    } catch (err) {
+      // Handle error if needed
+    }
   };
 
-return (
+  return (
     <div style={{ marginTop: '80px' }}>
-        {parsedHistory.length === 0 ? (
-            <Card>
-                <Card.Body>
-                    <h4>Nothing Here</h4>
-                    Try searching for some artwork.
-                </Card.Body>
-            </Card>
-        ) : (
-            <ListGroup>
-                {parsedHistory.map((historyItem, index) => (
-            <ListGroup.Item
-              key={index}
-              className={styles.historyListItem}
-              onClick={(e) => historyClicked(e, index)}
+      {parsedHistory.length === 0 ? (
+          <Card>
+              <Card.Body>
+                  <h4>Nothing Here</h4>
+                  Try searching for some artwork.
+              </Card.Body>
+          </Card>
+      ) : (
+          <ListGroup>
+              {parsedHistory.map((historyItem, index) => (
+          <ListGroup.Item
+            key={index}
+            className={styles.historyListItem}
+            onClick={(e) => historyClicked(e, index)}
+          >
+            {Object.keys(historyItem).map(key => (
+              <span key={key}>
+                {key}: <strong>{historyItem[key]}</strong>&nbsp;
+              </span>
+            ))}
+            <Button
+              className="float-end"
+              variant="danger"
+              size="sm"
+              onClick={(e) => removeHistoryClicked(e, index)}
             >
-              {Object.keys(historyItem).map(key => (
-                <span key={key}>
-                  {key}: <strong>{historyItem[key]}</strong>&nbsp;
-                </span>
-              ))}
-              <Button
-                className="float-end"
-                variant="danger"
-                size="sm"
-                onClick={(e) => removeHistoryClicked(e, index)}
-              >
-                &times;
-              </Button>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      )}
+              &times;
+            </Button>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    )}
     </div>
   );
 }
